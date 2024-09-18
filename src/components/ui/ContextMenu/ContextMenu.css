@@ -1,0 +1,53 @@
+.contexify_itemContent {
+  padding: 0 20px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.17px;
+  text-align: left;
+  border-radius: 0;
+
+  &:hover {
+    border-radius: 0 !important;
+    background-color: rgba(25, 118, 210, 0.08) !important;
+    color: black !important;
+  }
+}
+
+.contexify {
+  padding: 10px 0;
+  min-width: 156px;
+  border-radius: 4px;
+
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.14);
+}
+
+.contexify_item {
+  border-radius: 0;
+
+  margin-bottom: 10px;
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &.last {
+    margin-bottom: 0;
+  }
+
+  &.contexify_item-disabled {
+    user-select: none;
+
+    .contexify_itemContent {
+        &:hover {
+            background-color: transparent !important;
+            color: #333 !important; 
+        }
+    }
+  }
+}
+
+.contexify_separator {
+    margin: 10px;
+}

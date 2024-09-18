@@ -1,0 +1,18 @@
+.ActionButton {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  appearance: none;
+  background-color: transparent;
+  -webkit-tap-highlight-color: transparent;
+  padding: 0 2px;
+  height: 100%;
+
+  svg {
+    flex: 0 0 auto;
+    margin: auto;
+    height: 100%;
+    overflow: visible;
+    fill: #919eab;
+  }
+}

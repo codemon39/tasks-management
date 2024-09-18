@@ -1,0 +1,257 @@
+.wrapper {
+  list-style: none;
+  box-sizing: border-box;
+
+  &.clone {
+    transform: rotate(2deg);
+    pointer-events: none;
+    padding: 0;
+    padding-left: 10px;
+    padding-top: 5px;
+
+    .taskItem {
+      --vertical-padding: 5px;
+
+      padding-right: 24px;
+      border-radius: 4px;
+
+      background-color: rgba(25, 118, 210, 0.3);
+
+      /* width: calc(100% + var(--cloneDepth)); */
+      margin-left: var(--cloneMargin);
+      margin-right: var(--cloneMarginRight);
+
+      &.group {
+        background-color: rgba(var(--groupColor), 0.3);
+      }
+    }
+
+    &.gap {
+      height: 20px;
+    }
+  }
+
+  &.ghost {
+    .taskItem {
+      background: transparent;
+      border: 1px dashed rgba(0, 0, 0, 0.38);
+      padding: 6px 8px;
+
+      .text,
+      .collapse,
+      .checkbox {
+        opacity: 0;
+      }
+
+      &.child {
+        border-radius: 4px !important;
+        border-color: rgb(var(--groupColor));
+      }
+
+      &.group {
+        border-color: rgb(var(--groupColor));
+      }
+    }
+
+    .taskItem > * {
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+
+  &.overTaskList {
+    .taskItem {
+      display: none;
+    }
+  }
+}
+
+.taskItem {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 8px;
+  background-color: rgba(0, 0, 0, 0.03);
+  color: #222;
+  box-sizing: border-box;
+  margin-bottom: 3px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
+  font-family: Roboto;
+
+  button svg path {
+    fill: rgb(var(--groupColor));
+  }
+
+  &.checked {
+    background-color: rgba(0, 0, 0, 0.03);
+
+    .text {
+      color: rgba(0, 0, 0, 0.3);
+      text-decoration: line-through;
+    }
+
+    .checkbox {
+      accent-color: #000;
+      opacity: 0.3;
+    }
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  &.selected {
+    background-color: rgba(0, 0, 0, 0.08);
+
+    textarea {
+      font-weight: 700;
+    }
+
+    &.editing {
+      textarea {
+        font-weight: normal;
+      }
+    }
+  }
+
+  &.child {
+    border-left: 2px solid rgb(var(--groupColor));
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &.child1 {
+    border-left: 2px solid rgb(var(--groupColor));
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    display: none;
+  }
+
+  &.group {
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: rgba(var(--groupColor), 0.12);
+    border-left: 2px solid rgb(var(--groupColor));
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    textarea {
+      font-weight: 700;
+      padding-left: 0;
+      margin-left: 0;
+    }
+
+    .pinIcon {
+      svg,
+      path {
+        fill: rgb(var(--groupColor));
+      }
+    }
+
+    .text {
+      color: rgb(var(--groupColor));
+    }
+  }
+
+  &.gap {
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: default;
+
+    &.selected {
+      background-color: rgba(25, 118, 210, 0.12);
+    }
+  }
+}
+
+.text {
+  border: none;
+  background: transparent;
+  padding-left: 0.5rem;
+  font-size: 14px;
+  flex-grow: 1;
+  resize: none;
+  font-family: Roboto;
+  padding-bottom: 0;
+  padding-top: 2px;
+  line-height: 16px;
+  min-height: 14px;
+
+  &:focus {
+    outline: none;
+  }
+
+  flex-grow: 1;
+  margin-left: 3px;
+  padding: 0 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  white-space: break-spaces;
+  word-break: break-all;
+  line-height: 12px;
+}
+
+.disableInteraction {
+  pointer-events: none;
+}
+
+.disableSelection,
+.clone {
+  .text,
+  .Count {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+.collapse {
+  margin-top: -3px;
+  svg {
+    transition: transform 150ms ease;
+  }
+
+  &.collapsed svg {
+    transform: rotate(-90deg);
+  }
+}
+
+.checkbox {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+}
+
+.notesIcon {
+  display: flex;
+
+  svg {
+    fill: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.priority {
+  margin-left: 8px;
+}
+
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.dateIcon {
+  height: 14px;
+
+  svg {
+    height: 14px;
+  }
+}
