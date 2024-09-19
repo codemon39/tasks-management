@@ -14,31 +14,36 @@ export function getProjection(
   dragOffset,
   indentationWidth
 ) {
-  const realItems =  items.filter(({hidden}) => !hidden);
+  // const realItems = items.filter(({ hidden }) => !hidden);
   const overItemIndex = items.findIndex(({ id }) => id === overId);
   const activeItemIndex = items.findIndex(({ id }) => id === activeId);
   const activeItem = items[activeItemIndex];
   const overItem = items[overItemIndex];
 
-  const overRealItemIndex = realItems.findIndex(({ id }) => id === overId);
-  const activeRealItemIndex = realItems.findIndex(({ id }) => id === activeId);
+  // const overRealItemIndex = realItems.findIndex(({ id }) => id === overId);
+  // const activeRealItemIndex = realItems.findIndex(({ id }) => id === activeId);
 
   const newItems = arrayMove(items, activeItemIndex, overItemIndex);
-  const realNewItems = arrayMove(realItems, activeRealItemIndex, overRealItemIndex);
+  // const realNewItems = arrayMove(
+  //   realItems,
+  //   activeRealItemIndex,
+  //   overRealItemIndex
+  // );
 
-  const previousRealItem = realNewItems[overRealItemIndex - 1];
+  // const previousRealItem = realNewItems[overRealItemIndex - 1];
   const previousItem = newItems[overItemIndex - 1];
   const nextItem = newItems[overItemIndex + 1];
   const dragDepth = getDragDepth(dragOffset, indentationWidth);
   const projectedDepth = activeItem.depth + dragDepth;
 
-  const overGroup = previousItem?.isGroup ? previousItem : newItems.find(({ id }) => id === previousItem?.parentId)
+  const overGroup = previousItem?.isGroup
+    ? previousItem
+    : newItems.find(({ id }) => id === previousItem?.parentId);
   const isOverGroup =
     overItem?.isGroup ||
     !!overItem?.depth ||
     previousItem?.isGroup ||
     previousItem?.depth;
-
 
   const maxDepth =
     activeItem.isGroup ||
@@ -58,7 +63,14 @@ export function getProjection(
     depth = minDepth;
   }
 
-  return { depth, maxDepth, minDepth, parentId: getParentId(), overItem, previousRealItem: overGroup };
+  return {
+    depth,
+    maxDepth,
+    minDepth,
+    parentId: getParentId(),
+    overItem,
+    previousRealItem: overGroup,
+  };
 
   function getParentId() {
     if (depth === 0 || !previousItem) {
@@ -170,14 +182,19 @@ export function insertNewGroup(items, beforeId, group) {
   const updatedItems = [];
   items.forEach((item, idx) => {
     if (item.id === beforeId) {
-      lastIndex = items.findIndex((it, i) => i > idx &&( it.isGap || it.isGroup))
+      lastIndex = items.findIndex(
+        (it, i) => i > idx && (it.isGap || it.isGroup)
+      );
       index = idx;
-      updatedItems.push({...group, children:items.slice(idx, lastIndex === -1 ? items.length : lastIndex)});
+      updatedItems.push({
+        ...group,
+        children: items.slice(idx, lastIndex === -1 ? items.length : lastIndex),
+      });
       inserted = true;
       return;
     }
 
-    if(index !== -1 && idx > index && (lastIndex === -1 || idx < lastIndex)) {
+    if (index !== -1 && idx > index && (lastIndex === -1 || idx < lastIndex)) {
       return;
     }
 
@@ -225,38 +242,38 @@ export function findAndReleaseChildren(items, taskId) {
   let taskIdx;
   items.forEach((item) => {
     if (item.children?.length) {
-       const taskI = item.children.findIndex(({id}) => id === taskId);
-       if(taskI !== -1) {
+      const taskI = item.children.findIndex(({ id }) => id === taskId);
+      if (taskI !== -1) {
         groupId = item.id;
         taskIdx = taskI;
-       }
+      }
     }
   });
 
-  return deleteGroupWithoutChildren(items, groupId,taskIdx)
+  return deleteGroupWithoutChildren(items, groupId, taskIdx);
 }
 
 export function releaseGroupWithoutChildren(items, groupId, afterIdx = -1) {
   const updatedItems = [];
 
   items.forEach((item) => {
-    if(afterIdx !== -1 && item.id === groupId) {
-      const oldChildren = [ ...item.children];
-      item.children = oldChildren.slice(0, afterIdx)
+    if (afterIdx !== -1 && item.id === groupId) {
+      const oldChildren = [...item.children];
+      item.children = oldChildren.slice(0, afterIdx);
       updatedItems.push(item);
-      updatedItems.push(...oldChildren.slice(afterIdx+1));
+      updatedItems.push(...oldChildren.slice(afterIdx + 1));
       return;
     }
 
     if (item.id === groupId) {
-      updatedItems.push({ ...item, children: [], isGroup: false});
+      updatedItems.push({ ...item, children: [], isGroup: false });
       updatedItems.push(...item.children);
       return;
     }
 
     updatedItems.push(item);
   });
-  console.log('updatedItems', updatedItems)
+  console.log("updatedItems", updatedItems);
   return updatedItems;
 }
 
@@ -264,11 +281,11 @@ export function deleteGroupWithoutChildren(items, groupId, afterIdx = -1) {
   const updatedItems = [];
 
   items.forEach((item) => {
-    if(afterIdx !== -1 && item.id === groupId) {
-      const oldChildren = [ ...item.children];
-      item.children = oldChildren.slice(0, afterIdx)
+    if (afterIdx !== -1 && item.id === groupId) {
+      const oldChildren = [...item.children];
+      item.children = oldChildren.slice(0, afterIdx);
       updatedItems.push(item);
-      updatedItems.push(...oldChildren.slice(afterIdx+1));
+      updatedItems.push(...oldChildren.slice(afterIdx + 1));
       return;
     }
 
@@ -279,7 +296,7 @@ export function deleteGroupWithoutChildren(items, groupId, afterIdx = -1) {
 
     updatedItems.push(item);
   });
-  console.log('updatedItems', updatedItems)
+  console.log("updatedItems", updatedItems);
   return updatedItems;
 }
 
